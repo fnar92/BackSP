@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mx.fnar.fore_backend.mapper.UsuarioMapper">
+    
+    <resultMap id="getUsuarioByUserNameMap" type="Usuario" >
+        <result property="idUsuario" column="id_usuario_detalle"/> 
+        <result property="usuario" column="usuario"/>         
+        <result property="password" column="password"/>   
+        <result property="persona.idPersona" column="id_usuario"/>   
+        <result property="persona.nombre" column="nombre"/>   
+        <result property="persona.apaterno" column="apellido_paterno"/>   
+        <result property="persona.amaterno" column="apellido_materno"/>   
+        <result property="persona.correo" column="correo"/>     
+    </resultMap>
+    
+    <select id="getUsuarioByUserName" resultMap="getUsuarioByUserNameMap">         
+        <![CDATA[ 
+            SELECT
+                u.usuario,
+                u.password,
+                u.id_usuario,
+                ud.nombre,
+                ud.apellido_materno,
+                ud.apellido_materno,
+                ud.correo
+            FROM
+                usuario u 
+            INNER JOIN usuario_detalle ud ON ud.id_usuario = u.id_usuario 
+            WHERE
+                u.usuario = #{username}
+            AND u.activo = true
+            AND u.borrado = false
+        ]]>
+    </select>
+</mapper>

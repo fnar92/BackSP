@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mx.fnar.fore_backend.mapper.PerfilMapper">
+    
+    <resultMap id="getPerfilByIdPersonaMap" type="Perfil" >
+        <result property="idPerfil" column="id_perfil"/> 
+        <result property="descripcion" column="descripcion"/>         
+        <result property="tarjet" column="tarjet"/>         
+    </resultMap>
+    
+    <select id="getPerfilByIdPersona" resultMap="getPerfilByIdPersonaMap">         
+        <![CDATA[ 
+            SELECT
+                p.id_perfil,
+                P.descripcion,
+                P.tarjet
+            FROM
+                usuario_perfil pp
+            INNER JOIN perfil p ON p.id_perfil = pp.id_perfil
+            AND p.activo = true AND borrado = false
+            WHERE
+            pp.id_usuario = #{idPersona}
+        ]]>
+    </select>
+</mapper>
